@@ -68,7 +68,7 @@ Adjust temperature and theme
 Start chatting! Iris automatically understands the page context
 
 
-**Project Development Structure**
+## Project Development Structure
 
  
 ├── extension/                   # Chrome extension files
