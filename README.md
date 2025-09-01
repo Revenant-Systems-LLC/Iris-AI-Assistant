@@ -103,9 +103,9 @@ Start chatting! Iris automatically understands the page context
 
 **Local Development**
 # Start proxy server
-```cd proxy``` 
-```npm install```
-```npm run dev``` 
+cd proxy
+npm install
+npm run dev 
 # Uses nodemon for auto-reload
 # Load extension in Chrome
 # 1. Open chrome://extensions/
