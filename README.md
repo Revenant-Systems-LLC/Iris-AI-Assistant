@@ -48,7 +48,7 @@ cp .env.example .env
 npm start
 ```
 
-2. Install Chrome Extension
+**Install Chrome Extension**
 Download or clone this repository
 Open Chrome → Extensions (chrome://extensions/)
 Enable "Developer mode" (top right toggle)
@@ -56,7 +56,7 @@ Click "Load unpacked"
 Select the extension/ folder
 Iris icon should appear in your Chrome toolbar! (Don't forget to PIN it)
 
-3. Configure & Use
+**Configure & Use**
 Click the Iris icon on any webpage
 Click the settings gear (⚙️) to configure:
 Set your proxy URL (from step 1)
@@ -65,32 +65,36 @@ Adjust temperature and theme
 Start chatting! Iris automatically understands the page context
 
 
-**Development**
-Project Structure
+**Project Development Structure**
 
-├── extension/     # Chrome extension files
+ 
+├── extension/                   # Chrome extension files
 
-│   ├── manifest.json   # Extension configuration
+│   ├── manifest.json            # Extension configuration
 
-│   ├── content.js      # Main chat interface
+│   ├── content.js               # Main chat interface
 
-│   ├── background.js   # Service worker
+│   ├── background.js            # Service worker
 
-│   └── icons/          # Extension icons
+│   └── icons/                   # Extension icons
 
-├── proxy/              # Node.js proxy server
+├── proxy/                       # Node.js proxy server
 
-│   ├── server.js       # Express server
+│   ├── server.js                # Express server
 
-│   ├── package.json    # Dependencies
+│   ├── package.json             # Dependencies
 
-│   └── .env.example    # Environment template
+│   └── .env.example             # Environment template
+      
+├── railway.json                 # Railway deployment config
 
-├── railway.json        # Railway deployment config
+├── render.yaml                  # Render deployment config
 
-├── render.yaml         # Render deployment config
+├── DEPLOYMENT.md                # Directions for installation 
 
-└── README.md          # This file
+├── DEVELOPMENT_TIMELINE.md      # Entire development history
+
+└── README.md                    # This file
 
 
 
