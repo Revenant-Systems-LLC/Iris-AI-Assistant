@@ -7,9 +7,9 @@
 // Configuration
 const CONFIG = {
   DEFAULT_PROXY_URL: 'http://localhost:3000/generate-content',
-  PRODUCTION_PROXY_URL: 'https://iris-proxy.railway.app/generate-content', // Update after deployment
+  PRODUCTION_PROXY_URL: 'iris-proxy-production.up.railway.app',
   LLM_MODELS: {
-    gemini: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-pro'],
+    gemini: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-pro'],
     openai: ['gpt-4o', 'gpt-4o-mini']
   },
   MAX_CONTEXT_LENGTH: 5000,
