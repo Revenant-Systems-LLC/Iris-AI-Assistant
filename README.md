@@ -64,18 +64,7 @@ Choose your preferred AI model
 Adjust temperature and theme
 Start chatting! Iris automatically understands the page context
 
-
-Architecture
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Chrome Ext    │    │  Proxy Server   │    │   AI APIs       │
-│                 │    │                 │    │                 │
-│ • content.js    │◄──►│ • Express.js    │◄──►│ • Google Gemini │
-│ • background.js │    │ • CORS enabled  │    │ • OpenAI GPT    │
-│ • manifest.json │    │ • Error handling│    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-
-
-Development
+**Development**
 Project Structure
 ├── extension/           # Chrome extension files
 │   ├── manifest.json   # Extension configuration
