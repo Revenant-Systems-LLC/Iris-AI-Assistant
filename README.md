@@ -61,7 +61,7 @@ Iris icon should appear in your Chrome toolbar! (Don't forget to PIN it)
 
 **Configure & Use**
 Click the Iris icon on any webpage
-Click the settings gear (⚙️) to configure:
+Click the settings gear to configure:
 Set your proxy URL (from step 1)
 Choose your preferred AI model
 Adjust temperature and theme
@@ -101,16 +101,21 @@ Start chatting! Iris automatically understands the page context
 
 
 
-**Local Development**
-# Start proxy server
+Local Development
+ Start proxy server
+```
 cd proxy
+
 npm install
+
 npm run dev 
-# Uses nodemon for auto-reload
-# Load extension in Chrome
-# 1. Open chrome://extensions/
-# 2. Enable Developer mode
-# 3. Load unpacked → select extension/ folder
+```
+ Uses nodemon for auto-reload
+ 
+ Load extension in Chrome
+ 1. Open chrome://extensions/
+ 2. Enable Developer mode
+ 3. Load unpacked → select extension/ folder
 
 # Test health endpoint
 curl http://localhost:3000/health
