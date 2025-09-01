@@ -120,13 +120,23 @@ npm run dev
  3. Load unpacked → select extension/ folder
 
 # Test health endpoint
+```
 curl http://localhost:3000/health
-Security & Privacy
-API keys stored securely on proxy server only
-No data sent to third parties except chosen AI providers
-Chat history stored locally in Chrome storage
-HTTPS enforced for all API communications
-License
+```
+
+**Security & Privacy**
+
+API keys stored securely on proxy server only.
+
+No data sent to third parties except chosen AI providers.
+
+Chat history stored locally in Chrome storage.
+
+HTTPS enforced for all API communications.
+
+
+**License**
+
 This project is licensed under the MIT License.
 
 
