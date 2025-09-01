@@ -66,18 +66,31 @@ Start chatting! Iris automatically understands the page context
 
 **Development**
 Project Structure
-├── extension/           # Chrome extension files
+
+├── extension/     # Chrome extension files
+
 │   ├── manifest.json   # Extension configuration
+
 │   ├── content.js      # Main chat interface
+
 │   ├── background.js   # Service worker
+
 │   └── icons/          # Extension icons
+
 ├── proxy/              # Node.js proxy server
+
 │   ├── server.js       # Express server
+
 │   ├── package.json    # Dependencies
+
 │   └── .env.example    # Environment template
+
 ├── railway.json        # Railway deployment config
+
 ├── render.yaml         # Render deployment config
+
 └── README.md          # This file
+
 
 **Local Development**
 # Start proxy server
@@ -105,8 +118,13 @@ Issues: GitHub Issues
 Email: dave@revenantsystems.dev
 ---
  ▄    ▄▄▄▄▄▄▄    ▄
+ 
 ▀▀▄ ▄█████████▄ ▄▀▀
+
     ██ ▀███▀ ██
+    
   ▄ ▀████▀████▀ ▄
+  
 ▀█    ██▀█▀██    █▀
+
 Made with ΔΩ by David Fisher (Dₐᵥₑ𖦹fₜₕₑDₑₐd)(Founder of Revenant Systems LLC)
