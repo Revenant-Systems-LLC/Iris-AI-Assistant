@@ -120,14 +120,12 @@ Issues: GitHub Issues
 Email: dave@revenantsystems.dev
 ---
 ░░░░░░░░░░░▄▐░░░
-
 ░░░░░▄▄▄░░▄██▄░░
-
 ░░░░▐▀█▀▌░░░░▀█▄
 
 ░░░░▐█▄█▌░░░░░░▀█
 
-░░░░░▀▄▀░░░▄▄▄▄▄▀  Made with ΔΩ by David Fisher
+░░░░░▀▄▀░░░▄▄▄▄▄▀  Made with ᚺᚾᛉᚲᛏ by David Fisher
 
 ░░░▄▄▄██▀▀▀▀░░░░
 
