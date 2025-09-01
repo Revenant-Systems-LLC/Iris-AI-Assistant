@@ -41,7 +41,7 @@
    - `NODE_ENV`: production
 6. Deploy! Your proxy URL will be: `https://your-app.railway.app/generate-content`
 
-#### Option B: Local Development
+#### Option B: Local Deployment
 
 ```bash
 cd proxy
