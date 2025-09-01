@@ -1,4 +1,4 @@
-**Iris AI Assistant - Chrome Extension**
+**Iris AI Assistant - Chrome Extension 'AyeEyes'**
 
 *Transform any webpage into an intelligent conversation with AI.* 
 
