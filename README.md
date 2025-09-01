@@ -1,6 +1,8 @@
 **Iris AI Assistant - Chrome Extension**
 
-*Transform any webpage into an intelligent conversation with AI. Context-aware discussions powered by Gemini and ChatGPT.*
+*Transform any webpage into an intelligent conversation with AI.* 
+
+***Context-aware discussions powered by Gemini and ChatGPT.***
 
 ![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
