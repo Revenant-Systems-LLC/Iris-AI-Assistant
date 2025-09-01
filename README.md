@@ -1,5 +1,7 @@
 ## **Iris AI Assistant - Chrome Extension 'AyeEyes'**
 
+***Tired of not being able to show your favorite LLM any webpages or image files for that matter?***
+
 *Transform any webpage into an intelligent conversation with AI.* 
 
 ***Context-aware discussions powered by Gemini and ChatGPT.***
