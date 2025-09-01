@@ -129,9 +129,15 @@ HTTPS enforced for all API communications
 License
 This project is licensed under the MIT License.
 
-Support: support@revenantsystems.dev
-Issues: GitHub Issues
-Email: dave@revenantsystems.dev
+
+
+**Support:** support@revenantsystems.dev
+
+**Issues:** GitHub Issues
+
+**Email:** dave@revenantsystems.dev
+
+
 ---
 ░░░░░░░░░░░▄▐░░░
 
@@ -143,7 +149,7 @@ Email: dave@revenantsystems.dev
 
 ░░░░░▀▄▀░░░▄▄▄▄▄▀   
 
-░░░▄▄▄██▀▀▀▀░░░░   |Made with ᚺᚾᛉᚲᛏ by David Fisher|  aka  |Dₐᵥₑ𖦹fₜₕₑDₑₐd|
+░░░▄▄▄██▀▀▀▀░░░░  |Made with ᚺᚾᛉᚲᛏ by David Fisher|  aka  |Dₐᵥₑ𖦹fₜₕₑDₑₐd|
 
 ░░█▀▄▄▄█░▀▀░░░░░  |Founder of Revenant Systems LLC|      
 
