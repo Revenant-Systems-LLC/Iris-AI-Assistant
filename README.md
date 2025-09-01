@@ -1,4 +1,4 @@
-**Iris AI Assistant - Chrome Extension 'AyeEyes'**
+## **Iris AI Assistant - Chrome Extension 'AyeEyes'**
 
 *Transform any webpage into an intelligent conversation with AI.* 
 
@@ -103,8 +103,9 @@ Start chatting! Iris automatically understands the page context
 
 
 
-Local Development
- Start proxy server
+# Local Development
+ 
+Start proxy server
 ```
 cd proxy
 
@@ -114,7 +115,7 @@ npm run dev
 ```
  Uses nodemon for auto-reload
  
- Load extension in Chrome
+# Load extension in Chrome
  1. Open chrome://extensions/
  2. Enable Developer mode
  3. Load unpacked → select extension/ folder
@@ -124,7 +125,7 @@ npm run dev
 curl http://localhost:3000/health
 ```
 
-**Security & Privacy**
+# Security & Privacy
 
 API keys stored securely on proxy server only.
 
@@ -135,11 +136,12 @@ Chat history stored locally in Chrome storage.
 HTTPS enforced for all API communications.
 
 
-**License**
+# License
 
 This project is licensed under the MIT License.
 
 
+# CONTACT ME
 
 **Support:** support@revenantsystems.dev
 
