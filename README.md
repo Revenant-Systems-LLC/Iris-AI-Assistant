@@ -97,6 +97,8 @@ Start chatting! Iris automatically understands the page context
 
 ├── DEVELOPMENT_TIMELINE.md      # Entire development history
 
+├── TRANSFORMATION_SUMMARY.md    # My progress towards the UPD
+
 └── README.md                    # This file
 
 
