@@ -11,46 +11,43 @@ const CONFIG = {
   LLM_MODELS: {
     gemini: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-pro'],
     openai: ['gpt-4o', 'gpt-4o-mini'],
+    // Keep NinjaTech models in code but they won't be used
     ninjatech: ['ninja-standard', 'ninja-advanced', 'ninja-expert']
   },
   INTENT_MAPPINGS: {
     creative: {
       gemini: 'gemini-1.5-pro',
       openai: 'gpt-4o',
-      ninjatech: 'ninja-advanced',
+      ninjatech: 'ninja-advanced', // This stays in code but won't be used
       temperature: 0.9
     },
     balanced: {
       gemini: 'gemini-1.5-flash',
       openai: 'gpt-4o-mini',
-      ninjatech: 'ninja-standard',
+      ninjatech: 'ninja-standard', // This stays in code but won't be used
       temperature: 0.7
     },
     precise: {
       gemini: 'gemini-2.5-pro',
       openai: 'gpt-4o',
-      ninjatech: 'ninja-expert',
+      ninjatech: 'ninja-expert', // This stays in code but won't be used
       temperature: 0.3
     }
   },
-  STORAGE_KEYS: {
-    SETTINGS: 'iris_settings',
-    CONVERSATION_HISTORY: 'iris_conversation_history',
-    OFFLINE_CACHE: 'iris_offline_cache',
-    CONTEXT_SYNC: 'iris_context_sync'
-  },
+  // Change default provider to gemini instead of ninjatech
   DEFAULT_SETTINGS: {
-    apiProvider: 'ninjatech',
+    apiProvider: 'gemini', // Changed from 'ninjatech' to 'gemini'
     intent: 'balanced',
-    proxyUrl: 'auto', // 'auto', 'local', or custom URL
-    theme: 'system', // 'light', 'dark', or 'system'
-    fontSize: 'medium', // 'small', 'medium', or 'large'
-    position: 'right', // 'left' or 'right'
+    // Rest of settings remain the same
+    proxyUrl: 'auto',
+    theme: 'system',
+    fontSize: 'medium',
+    position: 'right',
     width: 400,
     height: 600,
-    contextLength: 10, // Number of messages to include in context
-    privacyLevel: 'balanced', // 'minimal', 'balanced', or 'full'
-    offlineMode: 'auto', // 'auto', 'always', or 'never'
+    contextLength: 10,
+    privacyLevel: 'balanced',
+    offlineMode: 'auto',
     quickActions: true,
     notifications: true,
     multiTabSync: true,
@@ -1517,7 +1514,6 @@ function createSettingsPanel() {
           id: 'apiProvider',
           label: 'AI Provider',
           options: [
-            { value: 'ninjatech', label: 'NinjaTech AI' },
             { value: 'gemini', label: 'Google Gemini' },
             { value: 'openai', label: 'OpenAI' }
           ],
