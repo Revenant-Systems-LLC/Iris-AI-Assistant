@@ -1,121 +1,203 @@
+const express = require('express');
+const cors = require('cors');
+const fetch = require('node-fetch');
 require('dotenv').config();
 
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
-
 const app = express();
-const PORT = process.env.PORT || 3000;
-const HOST = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+const port = process.env.PORT || 3000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Health check endpoint for deployment platforms
+// Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ 
-    status: 'healthy', 
-    timestamp: new Date().toISOString(),
-    keys: {
-      gemini: !!process.env.GEMINI_API_KEY,
-      openai: !!process.env.OPENAI_API_KEY
-    }
-  });
+  res.status(200).json({ status: 'ok' });
 });
 
+// Content generation endpoint
 app.post('/generate-content', async (req, res) => {
-  const { llm, model, contents, generationConfig } = req.body;
-  let apiKey, apiUrl, payload;
-
-  switch (llm) {
-    case 'gemini':
-      apiKey = process.env.GEMINI_API_KEY;
-      if (!apiKey) return res.status(500).json({ error: { message: 'Gemini API key missing.' } });
-      apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-      payload = { contents, generationConfig };
-      break;
-    case 'openai':
-      apiKey = process.env.OPENAI_API_KEY;
-      if (!apiKey) return res.status(500).json({ error: { message: 'OpenAI API key missing.' } });
-      apiUrl = 'https://api.openai.com/v1/chat/completions';
-      payload = {
-        model,
-        messages: contents.map(c => ({ role: c.role === 'model' ? 'assistant' : c.role, content: c.parts[0].text })),
-        temperature: generationConfig.temperature,
-        max_tokens: generationConfig.maxOutputTokens
-      };
-      break;
-    default:
-      return res.status(400).json({ error: { message: 'Invalid LLM selected.' } });
-  }
-
   try {
-    const response = await axios.post(apiUrl, payload, {
-      headers: {
-        'Content-Type': 'application/json',
-        ...(llm === 'openai' ? { 'Authorization': `Bearer ${apiKey}` } : {})
-      },
-      timeout: 30000 // 30 second timeout
-    });
-
-    // Normalize response to Gemini-like format
-    let normalized = normalizeResponse(llm, response.data);
-    res.json(normalized);
+    const { provider, model, temperature, messages, pageContext, privacyLevel } = req.body;
+    
+    // Validate request
+    if (!provider || !model || !messages) {
+      return res.status(400).json({ error: 'Missing required parameters' });
+    }
+    
+    // Prepare system message with page context
+    const systemMessage = createSystemMessage(pageContext, privacyLevel);
+    
+    // Prepare messages array with system message
+    const formattedMessages = [
+      { role: 'system', content: systemMessage },
+      ...messages
+    ];
+    
+    let content;
+    
+    // Generate content based on provider
+    switch (provider) {
+      case 'gemini':
+        content = await generateWithGemini(model, formattedMessages, temperature);
+        break;
+      case 'openai':
+        content = await generateWithOpenAI(model, formattedMessages, temperature);
+        break;
+      case 'ninjatech':
+        content = await generateWithNinjaTech(model, formattedMessages, temperature);
+        break;
+      default:
+        return res.status(400).json({ error: 'Invalid provider' });
+    }
+    
+    res.json({ content });
   } catch (error) {
-    console.error('LLM API Error:', error.message);
+    console.error('Error generating content:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Create system message with page context
+function createSystemMessage(pageContext, privacyLevel) {
+  if (!pageContext) {
+    return 'You are Iris, an AI web assistant. Help the user with their questions.';
+  }
+  
+  const { url, title, content, metadata } = pageContext;
+  
+  let systemMessage = `You are Iris, an AI web assistant. You are currently helping the user with the webpage titled "${title}" at URL "${url}".`;
+  
+  // Add metadata if available
+  if (metadata) {
+    if (metadata.description) {
+      systemMessage += `\n\nPage description: ${metadata.description}`;
+    }
     
-    const status = error.response ? error.response.status : 500;
-    const message = error.response ? error.response.data.error?.message || error.message : 'Internal error';
+    if (metadata.keywords) {
+      systemMessage += `\n\nKeywords: ${metadata.keywords}`;
+    }
     
-    if (status === 429) {
-      res.status(429).json({ error: { message: 'Rate limit exceeded. Try again later.' } });
-    } else if (error.code === 'ECONNABORTED') {
-      res.status(408).json({ error: { message: 'Request timeout. Please try again.' } });
-    } else {
-      res.status(status).json({ error: { message } });
+    if (metadata.author) {
+      systemMessage += `\n\nAuthor: ${metadata.author}`;
+    }
+    
+    if (metadata.publishedDate) {
+      systemMessage += `\n\nPublished date: ${metadata.publishedDate}`;
     }
   }
-});
-
-// Normalize responses to { candidates: [{ content: { parts: [{ text }] } }] }
-function normalizeResponse(llm, data) {
-  switch (llm) {
-    case 'gemini':
-      return data;
-    case 'openai':
-      return {
-        candidates: [{ content: { parts: [{ text: data.choices[0].message.content }] } }]
-      };
+  
+  // Add page content based on privacy level
+  if (privacyLevel === 'minimal') {
+    systemMessage += '\n\nThe user has enabled minimal privacy mode, so you only have access to the page URL and title.';
+  } else if (content) {
+    systemMessage += `\n\nHere is the content of the page:\n\n${content}`;
   }
+  
+  systemMessage += '\n\nProvide helpful, accurate, and concise responses based on this context.';
+  
+  return systemMessage;
 }
 
-// Export logs endpoint (basic implementation)
-app.get('/logs', (req, res) => {
-  res.json({ 
-    logs: 'Server logs endpoint - implement proper logging as needed',
-    uptime: process.uptime(),
-    memory: process.memoryUsage()
+// Gemini API handler
+async function generateWithGemini(model, messages, temperature) {
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error('Gemini API key not configured');
+  }
+  
+  // Convert messages to Gemini format
+  const geminiMessages = messages.map(msg => ({
+    role: msg.role === 'assistant' ? 'model' : msg.role,
+    parts: [{ text: msg.content }]
+  }));
+  
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      contents: geminiMessages,
+      generationConfig: {
+        temperature: temperature || 0.7
+      }
+    })
   });
-});
-
-// Error handling middleware
-app.use((error, req, res, next) => {
-  console.error('Unhandled error:', error);
-  res.status(500).json({ error: { message: 'Internal server error' } });
-});
-
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({ error: { message: 'Endpoint not found' } });
-});
-
-try {
-  app.listen(PORT, HOST, () => {
-    console.log(`🚀 Iris Proxy Server running on http://${HOST}:${PORT}`);
-    console.log(`📊 Health check: http://${HOST}:${PORT}/health`);
-    console.log(`🔑 Keys loaded: Gemini=${!!process.env.GEMINI_API_KEY}, OpenAI=${!!process.env.OPENAI_API_KEY}`);
-  });
-} catch (err) {
-  console.error('❌ Server start failed:', err);
-  process.exit(1);
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error?.message || 'Error calling Gemini API');
+  }
+  
+  const data = await response.json();
+  
+  if (!data.candidates || data.candidates.length === 0) {
+    throw new Error('No response from Gemini API');
+  }
+  
+  return data.candidates[0].content.parts[0].text;
 }
+
+// OpenAI API handler
+async function generateWithOpenAI(model, messages, temperature) {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error('OpenAI API key not configured');
+  }
+  
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: messages,
+      temperature: temperature || 0.7
+    })
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error?.message || 'Error calling OpenAI API');
+  }
+  
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
+// NinjaTech AI API handler
+async function generateWithNinjaTech(model, messages, temperature) {
+  const apiKey = process.env.NINJATECH_API_KEY;
+  if (!apiKey) {
+    throw new Error('NinjaTech API key not configured');
+  }
+  
+  const response = await fetch('https://api.ninjatech.ai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: messages,
+      temperature: temperature || 0.7
+    })
+  });
+  
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.error?.message || 'Error calling NinjaTech API');
+  }
+  
+  const data = await response.json();
+  return data.choices[0].message.content;
+}
+
+// Start server
+app.listen(port, () => {
+  console.log(`Iris proxy server running on port ${port}`);
+});
