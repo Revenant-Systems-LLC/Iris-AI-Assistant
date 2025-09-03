@@ -1,12 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Iris - AI Web Assistant",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Transform any webpage into an intelligent conversation with AI. Context-aware discussions powered by Gemini and ChatGPT.",
   "permissions": [
     "activeTab",
     "scripting",
-    "storage"
+    "storage",
+    "notifications",
+    "offlineStorage"
   ],
   "host_permissions": [
     "http://localhost:3000/*",
@@ -22,7 +24,8 @@
     "default_title": "Toggle Iris AI Assistant"
   },
   "background": {
-    "service_worker": "background.js"
+    "service_worker": "background.js",
+    "type": "module"
   },
   "content_scripts": [
     {
@@ -35,5 +38,6 @@
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
-  }
+  },
+  "offline_enabled": true
 }
