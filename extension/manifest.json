@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Iris - AI Web Assistant",
   "version": "3.0.0",
-  "description": "Transform any webpage into an intelligent conversation with AI. Context-aware discussions powered by Gemini and ChatGPT.",
+  "description": "Transform any webpage into an intelligent conversation with AI. Context-aware discussions powered by Gemini and ChatGPT and with v3.0.0 we also have NinjaTech AI as a choice.",
   "permissions": [
     "activeTab",
     "scripting",
