@@ -1,187 +1,138 @@
-## **Iris AI Assistant - Chrome Extension 'AyeEyes'**
+# Iris AI Assistant
 
-***Tired of not being able to show your favorite LLM any webpages or image files for that matter?***
+![Iris AI Assistant Logo](extension/icons/icon128.png)
 
-*Transform any webpage into an intelligent conversation with AI.* 
+## Overview
 
-***Context-aware discussions powered by Gemini and ChatGPT.***
-
-![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Chrome Extension](https://img.shields.io/badge/chrome-extension-yellow.svg)
+Iris AI Assistant is a powerful Chrome extension that transforms any webpage into an intelligent conversation with AI. It provides context-aware discussions powered by Google's Gemini and OpenAI's GPT models.
 
 ## Features
 
--  **Context-Aware AI**: Automatically understands webpage content for relevant responses
--  **Multi-LLM Support**: Switch between Google Gemini and OpenAI models seamlessly  
--  **Persistent Conversations**: Chat history saved across sessions
--  **Beautiful UI**: Modern, draggable interface with dark/light themes
--  **Customizable**: Adjustable temperature, proxy URLs, and model selection
--  **Export Chats**: Save conversation history as text files
--  **Privacy-First**: All data stored locally in Chrome storage
+### Smart Context Awareness
+- Intelligent content extraction that prioritizes visible content
+- Relevance scoring for extracted content
+- Content hierarchy (headings > paragraphs > other elements)
+- Structured data extraction when available
 
-##  Quick Start
+### Unified AI Interface
+- Simplified intent-based options:
+  - **Creative**: For more diverse and creative responses
+  - **Balanced**: For general-purpose balanced responses
+  - **Precise**: For factual and concise responses
 
-### Prerequisites
+### Quick Actions
+- One-click buttons for common tasks:
+  - 📝 **Summarize**: Get a concise summary of the page
+  - 💡 **Explain**: Explain concepts in simple terms
+  - 🔍 **Find**: Identify key facts and figures
+  - 🌐 **Translate**: Translate content to another language
+  - 💻 **Code**: Extract and explain code examples
 
-- Chrome/Chromium browser
-- Node.js 16+ (for proxy server)
-- Google Gemini API key ([Get here](https://aistudio.google.com/app/apikey))
-- OpenAI API key ([Get here](https://platform.openai.com/api-keys)) (optional)
+### Offline Mode
+- Response caching using IndexedDB
+- Offline detection and graceful degradation
+- Simple offline Q&A system using cached responses
+- Queue for pending requests when connection is restored
 
-### 1. Deploy Proxy Server
+### Multi-tab Sync
+- Share conversation context across browser tabs
+- Real-time updates across tabs
+- Tab-specific context when needed
+- Shared conversation history
 
-#### Option A: Railway (Recommended - Free)
+### Better Error UX
+- Friendly error messages with actionable steps
+- Automatic retry with exponential backoff
+- Troubleshooting guidance for common errors
+- Network status monitoring
+
+### Performance Optimization
+- Lazy loading of UI components
+- Response caching
+- Optimized DOM operations
+- Efficient context management
+- Background processing for heavy operations
+
+### Privacy Controls
+- Granular privacy settings:
+  - Page content sharing controls
+  - History retention options
+  - Data minimization options
+  - Local-only mode option
+- Content filtering before sending to AI
+
+### Responsive Design
+- Mobile-friendly touch targets
+- Adaptive layouts for different screen sizes
+- Optimized for touch interactions
+
+## Installation
+
+### From Chrome Web Store
+1. Visit the [Chrome Web Store](https://chrome.google.com/webstore) (coming soon)
+2. Search for "Iris AI Assistant"
+3. Click "Add to Chrome"
+
+### Manual Installation (Developer Mode)
+1. Download or clone this repository
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable "Developer mode" in the top-right corner
+4. Click "Load unpacked" and select the `extension` folder from this repository
+5. The extension icon should appear in your browser toolbar
+
+## Usage
+
+1. Click the Iris icon in your browser toolbar to activate the assistant
+2. Ask questions about the current webpage or use quick actions
+3. Adjust settings by clicking the gear icon in the Iris panel
+
+## Proxy Server Setup
+
+Iris uses a proxy server to communicate with AI providers. You can:
+
+1. Use the default production server (recommended)
+2. Run your own local server (for development)
+3. Deploy your own instance to Railway or another platform
+
+### Local Server Setup
+
+1. Navigate to the `proxy` directory
+2. Copy `.env.example` to `.env` and add your API keys
+3. Run `npm install` to install dependencies
+4. Run `npm start` to start the server
+5. In Iris settings, select "Local" for the proxy server
+
+### Railway Deployment
 
 1. Fork this repository
-2. Visit [Railway.app](https://railway.app)
-3. Click "Deploy from GitHub repo"
-4. Select your forked repository
-5. Set environment variables:
-   - `GEMINI_API_KEY`: Your Google Gemini API key
-   - `OPENAI_API_KEY`: Your OpenAI API key (optional)
-   - `NODE_ENV`: production
-6. Deploy! Your proxy URL will be: `https://your-app.railway.app/generate-content`
+2. Create a new project on [Railway](https://railway.app/)
+3. Connect your GitHub repository
+4. Add environment variables from `.env.example`
+5. Deploy the project
+6. In Iris settings, update the proxy URL to your Railway deployment URL
 
-#### Option B: Local Deployment
+## Development
 
-```bash
-cd proxy
-npm install
-cp .env.example .env
-# Edit .env with your API keys
-npm start
-```
+### Extension Structure
+- `content.js`: Main script that creates the chat interface and handles interactions
+- `background.js`: Service worker that handles extension icon clicks and initialization
+- `manifest.json`: Extension configuration
 
-**Install Chrome Extension**
-Download or clone this repository
-Open Chrome → Extensions (chrome://extensions/)
-Enable "Developer mode" (top right toggle)
-Click "Load unpacked"
-Select the extension/ folder
-Iris icon should appear in your Chrome toolbar! (Don't forget to PIN it)
+### Proxy Server Structure
+- `server.js`: Express server that handles API requests
+- `package.json`: Dependencies and scripts
+- `.env.example`: Example environment variables
 
-**Configure & Use**
-Click the Iris icon on any webpage
-Click the settings gear to configure:
-Set your proxy URL (from step 1)
-Choose your preferred AI model
-Adjust temperature and theme
-Start chatting! Iris automatically understands the page context
+## Contributing
 
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Project Development Structure
+## License
 
- 
-├── extension/                   # Chrome extension files
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-│   ├── manifest.json            # Extension configuration
+## Acknowledgments
 
-│   ├── content.js               # Main chat interface
-
-│   ├── background.js            # Service worker
-
-│   └── icons/                   # Extension icons
-
-├── proxy/                       # Node.js proxy server
-
-│   ├── server.js                # Express server
-
-│   ├── package.json             # Dependencies
-
-│   └── .env.example             # Environment template
-      
-├── railway.json                 # Railway deployment config
-
-├── render.yaml                  # Render deployment config
-
-├── DEPLOYMENT.md                # Directions for installation 
-
-├── DEVELOPMENT_TIMELINE.md      # Entire development history
-
-├── TRANSFORMATION_SUMMARY.md    # My progress towards the UPD
-
-└── README.md                    # This file
-
-
-
-# Local Development
- 
-Start proxy server
-```
-cd proxy
-
-npm install
-
-npm run dev 
-```
- Uses nodemon for auto-reload
- 
-# Load extension in Chrome
- 1. Open chrome://extensions/
- 2. Enable Developer mode
- 3. Load unpacked → select extension/ folder
-
-# Test health endpoint
-```
-curl http://localhost:3000/health
-```
-
-# Security & Privacy
-
-API keys stored securely on proxy server only.
-
-No data sent to third parties except chosen AI providers.
-
-Chat history stored locally in Chrome storage.
-
-HTTPS enforced for all API communications.
-
-
-# License
-
-This project is licensed under the MIT License.
-
-
-# CONTACT ME
-
-**Support:** support@revenantsystems.dev
-
-**Issues:** GitHub Issues
-
-**Email:** dave@revenantsystems.dev
-
-
----
-░░░░░░░░░░░▄▐░░░
-
-░░░░░▄▄▄░░▄██▄░░
-
-░░░░▐▀█▀▌░░░░▀█▄
-
-░░░░▐█▄█▌░░░░░░▀█
-
-░░░░░▀▄▀░░░▄▄▄▄▄▀   
-
-░░░▄▄▄██▀▀▀▀░░░░  |Made with ᚺᚾᛉᚲᛏ by David Fisher|  aka  |Dₐᵥₑ𖦹fₜₕₑDₑₐd|
-
-░░█▀▄▄▄█░▀▀░░░░░  |Founder of Revenant Systems LLC|      
-
-░░▌░▄▄▄▐▌▀▀▀░░░░  
-
-░▐░░░▄▄░█░▀▀░░░░
-
-█▌░░░▄░▀█▀░▀░░░░
-
-░░░░░░▄▄▐▌▄▄░░░░
-
-░░░░░░▀███▀█▄░░░
-
-░░░░░▐▌▀▄▀▄▀▐░░░
-
-░░░░░▐▀░░░░░░▐▌░
-
-░░░░░█░░░░░░░░█░
-
-░░░░▐▌░░░░░░░░░█
- 
+- [Google Gemini API](https://ai.google.dev/)
+- [OpenAI API](https://openai.com/api/)
+- [Chrome Extension API](https://developer.chrome.com/docs/extensions/reference/)
