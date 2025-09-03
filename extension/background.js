@@ -65,6 +65,67 @@ function showNotification(title, message) {
   });
 }
 
+// Update extension icon based on subscription tier
+async function updateExtensionIcon() {
+  try {
+    // Get license info from storage
+    const data = await chrome.storage.sync.get(['iris_license_key', 'iris_tier']);
+    const tier = data.iris_tier || 'free';
+    
+    // Set icon based on tier
+    if (tier === 'business') {
+      // Business tier uses skull icon
+      chrome.action.setIcon({
+        path: {
+          "16": "icons/skullicon16.png",
+          "48": "icons/skullicon48.png",
+          "128": "icons/skullicon128.png"
+        }
+      });
+    } else {
+      // Free and Pro tiers use regular icon
+      chrome.action.setIcon({
+        path: {
+          "16": "icons/icon16.png",
+          "48": "icons/icon48.png",
+          "128": "icons/icon128.png"
+        }
+      });
+    }
+  } catch (error) {
+    console.error('Error updating extension icon:', error);
+  }
+}
+
+// Call when extension is loaded
+chrome.runtime.onStartup.addListener(() => {
+  updateExtensionIcon();
+});
+
+// Call when extension is installed or updated
+chrome.runtime.onInstalled.addListener((details) => {
+  updateExtensionIcon();
+  
+  if (details.reason === 'install') {
+    // First installation
+    console.log('🎉 Iris AI Assistant installed');
+    
+    // Open welcome page
+    chrome.tabs.create({
+      url: 'https://github.com/Revenant-Systems-LLC/Iris-AI-Assistant/blob/main/README.md'
+    });
+  } else if (details.reason === 'update') {
+    // Extension updated
+    console.log('🔄 Iris AI Assistant updated to version', chrome.runtime.getManifest().version);
+    
+    // Show update notification
+    showNotification(
+      'Iris AI Assistant Updated',
+      `Updated to version ${chrome.runtime.getManifest().version}. Click for details.`
+    );
+  }
+});
+
 // Handle offline mode
 chrome.storage.sync.get('iris_settings', (data) => {
   const settings = data.iris_settings || {};
@@ -87,28 +148,6 @@ chrome.storage.sync.get('iris_settings', (data) => {
   }
 });
 
-// Handle installation and updates
-chrome.runtime.onInstalled.addListener((details) => {
-  if (details.reason === 'install') {
-    // First installation
-    console.log('🎉 Iris AI Assistant installed');
-    
-    // Open welcome page
-    chrome.tabs.create({
-      url: 'https://github.com/Revenant-Systems-LLC/Iris-AI-Assistant/blob/main/README.md'
-    });
-  } else if (details.reason === 'update') {
-    // Extension updated
-    console.log('🔄 Iris AI Assistant updated to version', chrome.runtime.getManifest().version);
-    
-    // Show update notification
-    showNotification(
-      'Iris AI Assistant Updated',
-      `Updated to version ${chrome.runtime.getManifest().version}. Click for details.`
-    );
-  }
-});
-
 // Handle notification clicks
 chrome.notifications.onClicked.addListener((notificationId) => {
   // Open GitHub page when update notification is clicked
@@ -119,6 +158,14 @@ chrome.notifications.onClicked.addListener((notificationId) => {
 
 // Listen for messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === 'updateTier') {
+    // Update tier in storage
+    chrome.storage.sync.set({ 'iris_tier': message.tier });
+    // Update icon
+    updateExtensionIcon();
+    sendResponse({ success: true });
+  }
+  
   if (message.action === 'getTabId') {
     // Send tab ID to content script
     sendResponse({ tabId: sender.tab.id });
