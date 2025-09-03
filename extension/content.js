@@ -10,22 +10,26 @@ const CONFIG = {
   PRODUCTION_PROXY_URL: 'https://iris-proxy-production.up.railway.app/generate-content',
   LLM_MODELS: {
     gemini: ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.5-pro'],
-    openai: ['gpt-4o', 'gpt-4o-mini']
+    openai: ['gpt-4o', 'gpt-4o-mini'],
+    ninjatech: ['ninja-standard', 'ninja-advanced', 'ninja-expert']
   },
   INTENT_MAPPINGS: {
     creative: {
       gemini: 'gemini-1.5-pro',
       openai: 'gpt-4o',
+      ninjatech: 'ninja-advanced',
       temperature: 0.9
     },
     balanced: {
       gemini: 'gemini-1.5-flash',
       openai: 'gpt-4o-mini',
+      ninjatech: 'ninja-standard',
       temperature: 0.7
     },
     precise: {
       gemini: 'gemini-2.5-pro',
       openai: 'gpt-4o',
+      ninjatech: 'ninja-expert',
       temperature: 0.3
     }
   },
@@ -36,7 +40,7 @@ const CONFIG = {
     CONTEXT_SYNC: 'iris_context_sync'
   },
   DEFAULT_SETTINGS: {
-    apiProvider: 'gemini',
+    apiProvider: 'ninjatech',
     intent: 'balanced',
     proxyUrl: 'auto', // 'auto', 'local', or custom URL
     theme: 'system', // 'light', 'dark', or 'system'
@@ -391,7 +395,7 @@ function createUI() {
       --iris-message-text: #1F2937;
       --iris-assistant-message-bg: #EEF2FF;
       --iris-assistant-message-text: #1F2937;
-      background-color: var(--iris-bg-color);
+      
       color: var(--iris-text-color);
     }
     
@@ -407,12 +411,12 @@ function createUI() {
       --iris-message-text: #F9FAFB;
       --iris-assistant-message-bg: #312E81;
       --iris-assistant-message-text: #F9FAFB;
-      background-color: var(--iris-bg-color);
+      
       color: var(--iris-text-color);
     }
     
     .iris-button:hover {
-      background-color: var(--iris-button-bg);
+      
     }
     
     .iris-quick-action:hover {
@@ -432,14 +436,14 @@ function createUI() {
     }
     
     .iris-user-message {
-      background-color: var(--iris-message-bg);
+      
       color: var(--iris-message-text);
       align-self: flex-end;
       margin-left: auto;
     }
     
     .iris-assistant-message {
-      background-color: var(--iris-assistant-message-bg);
+      
       color: var(--iris-assistant-message-text);
       align-self: flex-start;
     }
@@ -450,7 +454,7 @@ function createUI() {
     }
     
     .iris-error-message {
-      background-color: #FEE2E2;
+      
       color: #B91C1C;
       padding: 8px 12px;
       border-radius: 8px;
@@ -1335,7 +1339,7 @@ function addLoadingIndicator() {
       width: 8px;
       height: 8px;
       border-radius: 50%;
-      background-color: currentColor;
+      
       opacity: 0.6;
       animation: iris-loading-dots 1.4s infinite ease-in-out both;
     }
@@ -1513,6 +1517,7 @@ function createSettingsPanel() {
           id: 'apiProvider',
           label: 'AI Provider',
           options: [
+            { value: 'ninjatech', label: 'NinjaTech AI' },
             { value: 'gemini', label: 'Google Gemini' },
             { value: 'openai', label: 'OpenAI' }
           ],
