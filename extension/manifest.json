@@ -2,16 +2,17 @@
   "manifest_version": 3,
   "name": "Iris - AI Web Assistant",
   "version": "3.0.0",
-  "description": "Transform any webpage into an intelligent conversation with AI. Context-aware discussions powered by Gemini and ChatGPT and with v3.0.0 we also have NinjaTech AI as a choice.",
+  "description": "Transform any webpage into an intelligent conversation with AI. Context-aware discussions powered by Gemini and ChatGPT.",
   "permissions": [
     "activeTab",
     "scripting",
     "storage",
     "notifications",
-    "offlineStorage"
+    "alarms"
   ],
   "host_permissions": [
     "http://localhost:3000/*",
+    "http://localhost:4000/*",
     "https://*.railway.app/*",
     "https://*.onrender.com/*"
   ],
@@ -24,8 +25,7 @@
     "default_title": "Toggle Iris AI Assistant"
   },
   "background": {
-    "service_worker": "background.js",
-    "type": "module"
+    "service_worker": "background.js"
   },
   "content_scripts": [
     {
