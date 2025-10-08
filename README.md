@@ -131,6 +131,19 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
+## ⚖️ Legal
+
+This project is developed by **Revenant Systems LLC**.
+
+By using this software or interacting with its hosted AI agents, you agree to the following:
+
+- [Privacy Policy](https://yourusername.github.io/gpt-legal/privacy.html)
+- [Terms of Use](https://yourusername.github.io/gpt-legal/terms.html)
+- [Disclaimer](https://yourusername.github.io/gpt-legal/disclaimer.html)
+
+All rights reserved © 2025 Revenant Systems LLC.
+
+
 ## Acknowledgments
 
 - [Google Gemini API](https://ai.google.dev/)
